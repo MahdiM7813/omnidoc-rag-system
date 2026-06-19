@@ -1,0 +1,7 @@
+questions:
+  - id: smoke_intro
+    question: "Provide a concise introduction to the paper."
+    expected_keywords: ["model", "architecture"]
+  - id: smoke_variants
+    question: "What variants or model sizes are discussed?"
+    expected_keywords: ["variant", "size", "model"]

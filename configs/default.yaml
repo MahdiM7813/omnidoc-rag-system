@@ -1,0 +1,81 @@
+app:
+  name: production-multimodal-rag
+  environment: development
+  debug: false
+  verbose: false
+
+paths:
+  raw_data_dir: data/raw
+  processed_data_dir: data/processed
+  index_dir: data/indexes
+  cache_dir: data/cache
+
+logging:
+  level: INFO
+  json_logs: true
+
+llm:
+  provider: groq
+  model_name: llama-3.1-8b-instant
+  temperature: 0.2
+  max_tokens: 1024
+  api_key_env: GROQ_API_KEY
+
+vision_llm:
+  provider: openai
+  model_name: gpt-4o-mini
+  temperature: 0.0
+  max_tokens: 700
+  api_key_env: OPENAI_API_KEY
+
+embeddings:
+  provider: openai
+  model_name: text-embedding-3-small
+  api_key_env: OPENAI_API_KEY
+  device: auto
+  normalize_embeddings: true
+
+vectorstore:
+  provider: chroma
+  collection_name: multimodal_rag
+  persist_directory: data/indexes/chroma
+  faiss_index_name: faiss_index
+  allow_dangerous_deserialization: false
+
+document_processing:
+  mode: multimodal
+  chunk_size: 1000
+  chunk_overlap: 200
+  unstructured_strategy: hi_res
+  infer_table_structure: true
+  extract_image_block_types: [Image, Table]
+  chunking_strategy: by_title
+  max_characters: 10000
+  combine_text_under_n_chars: 2000
+  new_after_n_chars: 6000
+  max_original_chars: 1200
+
+retrieval:
+  top_k: 6
+  score_threshold: null
+
+conversation:
+  enabled: true
+  max_turns: 8
+  long_term_memory_path: data/cache/conversation_memory.json
+
+cache:
+  enabled: true
+  ttl_seconds: 86400
+
+rag:
+  system_prompt: >
+    You are a reliable research assistant. Answer strictly from the provided context.
+    If the answer is not in the context, say "I don't know". Be concise and precise.
+  include_tables: true
+  include_images_as_text: true
+  return_sources: true
+
+evaluation:
+  questions_path: configs/eval_questions.yaml
+  output_path: data/processed/eval_results.jsonl
