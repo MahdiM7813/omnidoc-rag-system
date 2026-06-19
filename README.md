@@ -1,6 +1,7 @@
 # OmniDoc RAG: Production-Grade Multimodal Conversational RAG for Complex PDFs
+
 <p align="center">
-  <img src="assets/omnidoc_arch.png" width="950"/>
+  <img src="assets/Omnidoc RAG.jpg" width="950"/>
 </p>
 
 <p align="center"><i>Figure: End-to-end architecture of OmniDoc RAG system</i></p>
